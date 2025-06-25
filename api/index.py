@@ -23,7 +23,3 @@ def meow_page(page):
 @app.route('/static/data/projects.json')
 def projects_json():
     return send_from_directory('../static/data', 'projects.json')
-
-# Required for Vercel Python runtime
-def handler(environ, start_response):
-    return app(environ, start_response)
