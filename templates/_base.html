@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>{{ page|capitalize }} - Novas Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+<style>
+  *{margin:0; padding:0; box-sizing:border-box;}
+  body {
+    font-family: 'Lora', serif;
+    background-color: #f4eefa;
+    color: #000;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    scroll-behavior: smooth;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: #1a1a1a;
+    padding: 15px 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  .topbar.scrolled {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  .topbar h1 {
+    font-size: 24px;
+    color: inherit;
+  }
+  .topbar-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .topbar-button {
+    padding: 8px 12px;
+    font-size: 16px;
+    background: transparent;
+    color: inherit;
+    border: none;
+    cursor: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease-in-out;
+    transform-origin: center bottom;
+    transform: rotate(0deg);
+    position: relative;
+  }
+  .topbar-button img {
+    width: 18px;
+    height: 18px;
+    user-select: none;
+    pointer-events: none;
+  }
+  .topbar-button:hover {
+    color: #ffffff;
+  }
+  .topbar-button.active {
+    text-decoration: underline;
+  }
+  .main {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 300px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .main.visible {
+    opacity: 1;
+  }
+  #fade-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: white;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 2000;
+  }
+  #fade-overlay.active {
+    pointer-events: all;
+    opacity: 1;
+  }
+  #loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 6px solid #eee;
+    border-top: 6px solid #ff6f61;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    z-index: 2500;
+    display: none;
+  }
+  #loading-spinner.active {
+    display: block;
+  }
+  @keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg);}
+  }
+</style>
+</head>
+<body>
+  <div id="fade-overlay"></div>
+  <div id="loading-spinner"></div>
+
+  <div class="topbar" id="topbar">
+    <h1>Novas Portfolio</h1>
+    <div class="topbar-actions">
+      <button class="topbar-button" data-target="top">
+        <img src="/static/data/resources/home.webp" alt="Home Icon" /> Home
+      </button>
+      <button class="topbar-button" data-target="skillset-section">
+        <img src="/static/data/resources/skillset.webp" alt="Skillset Icon" /> Skillset
+      </button>
+      <button class="topbar-button" data-target="projects-section">
+        <img src="/static/data/resources/projects.webp" alt="Projects Icon" /> Projects
+      </button>
+    </div>
+  </div>
+
+  <div class="main" id="main-content">
+    {% block content %}{% endblock %}
+  </div>
+
+<script>
+  const fadeOverlay = document.getElementById('fade-overlay');
+  const mainContent = document.getElementById('main-content');
+  const buttons = document.querySelectorAll('.topbar-button');
+  const loadingSpinner = document.getElementById('loading-spinner');
+  const topbar = document.getElementById('topbar');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      topbar.classList.add('scrolled');
+    } else {
+      topbar.classList.remove('scrolled');
+    }
+  });
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const id = btn.getAttribute('data-target');
+      const el = id === 'top' ? document.body : document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  window.addEventListener('load', () => {
+    fadeOverlay.classList.remove('active');
+    loadingSpinner.classList.remove('active');
+    setTimeout(() => {
+      mainContent.classList.add('visible');
+    }, 10);
+  });
+</script>
+</body>
+</html>

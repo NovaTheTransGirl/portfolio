@@ -1,0 +1,424 @@
+{% extends "_base.html" %}
+{% block content %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka+One&display=swap');
+body {
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: #1a1a1a;
+  color: #ddd;
+  cursor: none !important;
+}
+.glass-beams {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+.beam {
+  position: absolute;
+  top: -200px;
+  width: 150px;
+  height: 700px;
+  transform: rotate(-20deg);
+  opacity: .35;
+  filter: blur(45px);
+  animation: beam-glow 4s ease-in-out infinite alternate;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6), transparent);
+}
+.beam1 { left: 17%; background: linear-gradient(to bottom, transparent 0%, rgba(91,206,250,0.9) 40%, rgba(91,206,250,0) 90%); }
+.beam2 { left: 26.5%; background: linear-gradient(to bottom, transparent 0%, rgba(245,169,184,0.9) 40%, rgba(245,169,184,0) 90%); }
+.beam3 { left: 36%; background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,0) 90%); }
+.beam4 { left: 45.5%; background: linear-gradient(to bottom, transparent 0%, rgba(245,169,184,0.9) 40%, rgba(245,169,184,0) 90%); }
+.beam5 { left: 55%; background: linear-gradient(to bottom, transparent 0%, rgba(91,206,250,0.9) 40%, rgba(91,206,250,0) 90%); }
+@keyframes beam-glow {
+  0% { filter: blur(20px); }
+  100% { filter: blur(40px); }
+}
+#container, .container, main, .content-wrapper {
+  max-width: none;
+  margin: 0;
+  padding-left: 40px;
+  padding-top: 200px;
+  width: 100%;
+  text-align: left;
+  position: relative;
+  z-index: 2;
+}
+h1, h2, p {
+  margin: 0 0 10px 0;
+  text-align: left;
+}
+h1 {
+  font-family: 'Fredoka One', cursive, 'Poppins', Arial, sans-serif;
+  font-size: 56px;
+  color: #ddd;
+}
+#rotating-role {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  color: #bda8de;
+}
+#description {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: #bbb;
+  max-width: 600px;
+}
+.elastic-text span {
+  display: inline-block;
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+  white-space: pre;
+}
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, background-color 0.3s ease;
+  background-color: white;
+}
+.cursor-hover {
+  transform: translate(-50%, -50%) scale(2.2);
+}
+#projects-section, #skillset-section {
+  margin-top: 150px;
+  padding-bottom: 100px;
+  position: relative;
+  z-index: 2;
+}
+#projects-section h2, #skillset-section h2 {
+  font-family: 'Fredoka One', cursive, 'Poppins', Arial, sans-serif;
+  font-size: 48px;
+  color: #ddd;
+  margin-bottom: 40px;
+}
+#projects-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 0 40px 0 0;
+  box-sizing: border-box;
+}
+.project-card {
+  background: #222;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.05);
+  transition: box-shadow 0.3s ease;
+}
+.project-card:hover {
+  box-shadow: 0 0 25px rgba(255,255,255,0.2);
+}
+.project-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background: #333;
+}
+.project-title {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: #bda8de;
+  margin-bottom: 12px;
+}
+.project-info {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #bbb;
+  font-size: 14px;
+}
+.info-item img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.project-description {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: #999;
+  max-height: 70px;
+  overflow: hidden;
+}
+#skillset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding-right: 40px;
+}
+.skill {
+  background: #222;
+  border-radius: 10px;
+  padding: 15px;
+  color: #ccc;
+  text-align: center;
+  font-size: 16px;
+}
+.contact-icons {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.contact-icons a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #bbb;
+  font-size: 14px;
+}
+.contact-icons img {
+  width: 20px;
+  height: 20px;
+}
+</style>
+
+<div class="glass-beams">
+  <div class="beam beam1"></div>
+  <div class="beam beam2"></div>
+  <div class="beam beam3"></div>
+  <div class="beam beam4"></div>
+  <div class="beam beam5"></div>
+</div>
+
+<h1>
+  <span class="elastic-text" id="line1">Hello there!</span><br>
+  <span class="elastic-text" id="line2">I'm Nova!</span>
+</h1>
+<h2 id="rotating-role"></h2>
+<p id="description"></p>
+
+<section id="skillset-section">
+  <h2 class="elastic-text" id="skillset-title">Skillset</h2>
+  <div id="skillset-grid">
+    <div class="skill">Python</div>
+    <div class="skill">Lua / Luau</div>
+    <div class="skill">HTML</div>
+    <div class="skill">Flask</div>
+    <div class="skill">Rec Room CV2</div>
+    <div class="skill">Unity UIX</div>
+    <div class="skill">UI/UX Design</div>
+    <div class="skill">Beginner C#</div>
+  </div>
+</section>
+
+<section id="projects-section">
+  <h2 class="elastic-text" id="projects-title">Projects</h2>
+  <div id="projects-container"></div>
+</section>
+
+<div class="contact-icons">
+  <a href="mailto:ssmonorr@hotmail.com"><img src="/static/data/resources/email.webp" alt="Email Icon" /></a>
+  <a href="https://github.com/NovaTheTransGirl"><img src="/static/data/resources/github.webp" alt="GitHub Icon" /></a>
+  <a><img src="/static/data/resources/discord.webp" alt="Discord Icon" />@novadevv</a>
+</div>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+
+<script>
+const roles = ["Frontend Developer", "Game Developer", "Graphics Designer", "UX Designer", "I Make Games", "Meow :3"];
+const symbols = "!@#$%^&*()_+-=[]{}|;:',.<>?/`~ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const roleEl = document.getElementById("rotating-role");
+const elasticTexts = [document.getElementById("line1"), document.getElementById("line2"), document.getElementById("projects-title"), document.getElementById("skillset-title")];
+
+function wrapElastic(el) {
+  const text = el.textContent;
+  el.textContent = "";
+  for (const char of text) {
+    const span = document.createElement("span");
+    span.textContent = char === " " ? "\u00A0" : char;
+    el.appendChild(span);
+  }
+}
+elasticTexts.forEach(wrapElastic);
+
+function randomChar() {
+  return symbols[Math.floor(Math.random() * symbols.length)];
+}
+
+function morphText(oldText, newText, callback) {
+  const maxLength = Math.max(oldText.length, newText.length);
+  const scramble = [];
+  for (let i = 0; i < maxLength; i++) {
+    const from = oldText[i] || "";
+    const to = newText[i] || "";
+    scramble.push({ from, to, char: from, progress: 0, max: Math.floor(Math.random() * 40) + 30 });
+  }
+  function animate() {
+    let output = "";
+    let complete = true;
+    for (let i = 0; i < scramble.length; i++) {
+      const s = scramble[i];
+      if (s.progress < s.max) {
+        complete = false;
+        s.char = Math.random() < 0.4 ? randomChar() : s.char;
+        s.progress++;
+      } else {
+        s.char = s.to;
+      }
+      output += s.char;
+    }
+    roleEl.textContent = output;
+    if (!complete) {
+      setTimeout(() => requestAnimationFrame(animate), 5);
+    } else {
+      currentText = newText;
+      if (callback) callback();
+    }
+  }
+  animate();
+}
+
+let currentIndex = 0;
+let currentText = "";
+
+function rotateRoles() {
+  const nextIndex = (currentIndex + 1) % roles.length;
+  const nextText = roles[nextIndex];
+  morphText(currentText, nextText, () => {
+    currentIndex = nextIndex;
+    setTimeout(rotateRoles, 1250);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  currentText = roles[0];
+  roleEl.textContent = currentText;
+  setTimeout(rotateRoles, 3000);
+  const yearsSince2019 = new Date().getFullYear() - 2019;
+  const startDate = new Date("2010-10-29");
+  const today = new Date();
+  let yearsSince29102010 = today.getFullYear() - startDate.getFullYear();
+
+  const hasHadAnniversaryThisYear = (
+    today.getMonth() > startDate.getMonth() ||
+    (today.getMonth() === startDate.getMonth() && today.getDate() >= startDate.getDate())
+  );
+
+  if (!hasHadAnniversaryThisYear) {
+    yearsSince29102010--;
+  }
+
+  document.getElementById("description").textContent = `I am a skilled developer and designer with over ${yearsSince2019} years of experience in the IT industry. Using Python, Luau, Rec Room's circuitry system (CV2), and other languages and tools, I create full apps, games, and creations efficiently while ensuring they are user-friendly, creative, and effective. I am able to provide high quality applications that can exceed expectations, if you need help, I'm the gal!\n\nI am also ${yearsSince29102010}, a trans female, I prefer to be refered as she/her, I am semi non verbal (meaning at times I will not use my voice), and I am fully self taught. I often tend to stray from the industry standard, so if you ever require something to  be that standard, I can push the effort to play into it, at the end of the day I am a kid with a dream, I wish to make it far but its just a tell of time at the current moment.`;
+
+  const projects = [
+    {
+      "title": "Dragonball: Super Breakthrough",
+      "image": "/static/data/projectInfo/breakthrough1.webp",
+      "visits": "10.1k",
+      "cheers": "161",
+      "favorites": "150",
+      "description": "SHATTER YOUR LIMITS DBS: Breakthrough is a 3D Dragon Ball Arena Fighter aiming to bring the experience from the likes of Dragon Ball: Sparking! Zero, and Dragon Ball Xenoverse into VR. Select various characters and battle it out in faithful Dragon Ball style fights curated and tuned to a Virtual Reality experience!"
+    },
+    {
+      "title": "Dragonball: Super Breakthrough Open Beta",
+      "image": "/static/data/projectInfo/openbeta.webp",
+      "visits": "100.1k",
+      "cheers": "2.0k",
+      "favorites": "1.8k",
+      "description": "An outdated beta version of DBS-Breakthrough"
+    },
+    {
+      "title": "Glide RRS",
+      "image": "/static/data/projectInfo/glide.webp",
+      "visits": "57.2k",
+      "cheers": "1.6k",
+      "favorites": "101",
+      "description": "Welcome to Glide! A floating island in the sky, that is home to many wonderful creatures! Glide with them between the islands to collect gems. Use the gems to upgrade to better, faster gliders and fun trails! Beware of the many hazards that are around the islands!"
+    },
+    {
+      "title": "Wordel",
+      "image": "/static/data/projectInfo/wordel.webp",
+      "visits": "435",
+      "cheers": "14",
+      "favorites": "5",
+      "description": "^Wordel, It is a regular game of Wordle BUT Unlimited."
+    },
+    {
+      "title": "LGBTQIA Social Hub",
+      "image": "/static/data/projectInfo/lgbtqiasocialhub.webp",
+      "visits": "12.7k",
+      "cheers": "441",
+      "favorites": "20",
+      "description": "Welcome to the LGBTQIA social hub! This is a room themed around Pride Month. Here, you can socialize with other people, learn more about the LGBTQIA community, and ask questions!"
+    }
+  ];
+
+  const container = document.getElementById("projects-container");
+
+  function createCard(p) {
+    const card = document.createElement("div");
+    card.className = "project-card";
+    card.innerHTML = `
+      <img src="${p.image}" class="project-image" />
+      <div class="project-title">${p.title}</div>
+      <div class="project-info">
+        <div class="info-item"><img src="/static/data/resources/visits.webp"><span>${p.visits}</span></div>
+        <div class="info-item"><img src="/static/data/resources/cheers.webp"><span>${p.cheers}</span></div>
+        <div class="info-item"><img src="/static/data/resources/favorites.webp"><span>${p.favorites}</span></div>
+      </div>
+      <div class="project-description">${p.description}</div>
+    `;
+    return card;
+  }
+
+  projects.forEach(p => container.appendChild(createCard(p)));
+});
+
+document.addEventListener("mousemove", e => {
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+  let allSpans = [];
+  elasticTexts.forEach(el => {
+    allSpans.push(...el.querySelectorAll("span"));
+  });
+  allSpans.forEach(span => {
+    const rect = span.getBoundingClientRect();
+    const dx = mouseX - (rect.left + rect.width / 2);
+    const dy = mouseY - (rect.top + rect.height / 2);
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 100) {
+      const angle = Math.atan2(dy, dx);
+      const moveX = Math.cos(angle) * -60 * (1 - dist/100);
+      const moveY = Math.sin(angle) * -60 * (1 - dist/100);
+      span.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    } else {
+      span.style.transform = "translate(0, 0)";
+    }
+  });
+  cursorDot.style.left = `${mouseX}px`;
+  cursorDot.style.top = `${mouseY}px`;
+});
+
+const cursorDot = document.getElementById("cursor-dot");
+
+document.querySelectorAll("button, a").forEach(el => {
+  el.addEventListener("mouseenter", () => cursorDot.classList.add("cursor-hover"));
+  el.addEventListener("mouseleave", () => cursorDot.classList.remove("cursor-hover"));
+});
+</script>
+{% endblock %}
