@@ -22,4 +22,4 @@ def meow_page(page):
 
 @app.route('/static/data/projects.json')
 def projects_json():
-    return send_from_directory('../static/data', 'projects.json')
+    return send_from_directory('../public/data', 'projects.json')
